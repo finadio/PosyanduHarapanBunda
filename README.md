@@ -1,8 +1,6 @@
 # Posyandu Harapan Bunda - E-Health Information System
 
-Website Sistem Informasi Posyandu Harapan Bunda yang dikembangkan sebagai proyek mata kuliah **Informatika Medik** di Program Studi Informatika, Universitas Jenderal Soedirman.
-
-Aplikasi ini dirancang untuk mendukung digitalisasi layanan Posyandu melalui pengelolaan data pasien, rekam medis, inventaris obat dan vaksin, serta penyediaan informasi dan edukasi kesehatan bagi masyarakat.
+Website Sistem Informasi Posyandu Harapan Bunda, aplikasi ini dirancang untuk mendukung digitalisasi layanan Posyandu melalui pengelolaan data pasien, rekam medis, inventaris obat dan vaksin, serta penyediaan informasi dan edukasi kesehatan bagi masyarakat.
 
 ![Dashboard](public/screenshotweb/dashboard.png)
 ![Login](public/screenshotweb/login.png)
