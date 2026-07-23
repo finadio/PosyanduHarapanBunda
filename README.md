@@ -1,65 +1,143 @@
-﻿# Posyandu Harapan Bunda
+# Posyandu Harapan Bunda - E-Health Information System
 
-Aplikasi manajemen layanan Posyandu (anak, ibu hamil, lansia) berbasis web.
+Website Sistem Informasi Posyandu Harapan Bunda yang dikembangkan sebagai proyek mata kuliah **Informatika Medik** di Program Studi Informatika, Universitas Jenderal Soedirman.
 
-![Versi](https://img.shields.io/badge/version-2.0.0-blue.svg)
-![Tahun](https://img.shields.io/badge/updated-2025-green.svg)
+Aplikasi ini dirancang untuk mendukung digitalisasi layanan Posyandu melalui pengelolaan data pasien, rekam medis, inventaris obat dan vaksin, serta penyediaan informasi dan edukasi kesehatan bagi masyarakat.
 
-Sistem Informasi Posyandu yang diperbarui untuk tahun 2025 dengan fitur-fitur terkini.
+![Dashboard](public/screenshotweb/dashboard.png)
+![Login](public/screenshotweb/login.png)
 
-## Teknologi
-- Laravel (PHP)
-- MySQL/MariaDB
-- Node.js & Vite (opsional, untuk aset frontend)
+---
 
-## Prasyarat
-- PHP 8.x dan Composer
-- MySQL/MariaDB
-- Node.js (opsional)
+## Tentang Project
 
-## Instalasi
-```bash
-# 1) Clone repo
-git clone https://github.com/finadio/PosyanduHarapanBunda.git
-cd PosyanduHarapanBunda
+Sebelum sistem ini dikembangkan, proses pencatatan di Posyandu Harapan Bunda masih dilakukan secara manual sehingga pengelolaan data pasien dan layanan kesehatan menjadi kurang efisien. Website ini dibangun untuk membantu digitalisasi proses administrasi serta menyediakan media informasi yang dapat diakses oleh masyarakat.
 
-# 2) Salin env dan atur konfigurasi database
-copy .env.example .env
-# Edit .env -> DB_DATABASE, DB_USERNAME, DB_PASSWORD
+Tujuan utama pengembangan sistem meliputi:
 
-# 3) Install dependency backend
-composer install
+- Digitalisasi data pasien dan layanan kesehatan.
+- Mempermudah pengelolaan administrasi Posyandu.
+- Menyediakan informasi jadwal kegiatan secara terpusat.
+- Menyediakan media edukasi kesehatan berbasis web.
 
-# 4) Generate app key
-php artisan key:generate
+---
 
-# 5) Migrasi dan seeding (opsional)
-php artisan migrate --seed
+## Fitur Utama
 
-# 6) (Opsional) Install dependency frontend dan build
-npm install
-npm run build
+### Autentikasi & Manajemen Akun
+- Registrasi pengguna & login multi-role.
+- Pembatasan hak akses berdasarkan peran pengguna (Administrator, Bidan, Kader/Petugas, dan Orang Tua/Masyarakat).
+
+### Dashboard
+- Ringkasan data pasien dan petugas secara real-time.
+- Kalender jadwal kegiatan Posyandu terdekat.
+- Statistik layanan interaktif (Status Gizi, Imunisasi, Penimbangan, Pemeriksaan Ibu Hamil & Lansia).
+
+### Manajemen Data Master
+- Pengelolaan data Orang Tua, Anak (Balita), Ibu Hamil, Lansia, dan Petugas.
+
+### Layanan Kesehatan (Pencatatan & Rekam Medis)
+- Pemeriksaan Ibu Hamil & Lansia.
+- Pencatatan Imunisasi & Penimbangan Balita.
+- Riwayat pemeriksaan pasien yang tersimpan secara terpusat.
+- Cetak laporan hasil pelayanan kesehatan.
+
+### Persediaan (Inventory)
+- Manajemen stok vaksin dan obat.
+- Monitoring tanggal kedaluwarsa persediaan.
+- Log riwayat penggunaan obat/vaksin.
+
+### Edukasi & Pusat Bantuan
+- Media artikel edukasi kesehatan posyandu.
+- Integrasi chat bantuan WhatsApp & QR Code grup.
+
+---
+
+## Implementasi Teknis & Teknologi
+
+| Komponen | Teknologi |
+|----------|-----------|
+| **Backend Framework** | Laravel 12 (PHP ^8.2) |
+| **Database** | MySQL / MariaDB (Development menggunakan SQLite) |
+| **ORM** | Eloquent ORM |
+| **Frontend Utilities** | Blade Templates, HTML5, JavaScript (AJAX, jQuery) |
+| **UI Framework** | Tailwind CSS (Auth & Dashboard Utama) & Bootstrap / Stisla (Halaman Data & Formulir) |
+| **Libraries** | Chart.js (Visualisasi Statistik), SweetAlert (Notifikasi Konfirmasi) |
+| **Architecture** | Model-View-Controller (MVC) |
+
+---
+
+## Struktur Project
+
+```text
+app/
+  ├── Http/
+  │    ├── Controllers/ (Logika Pengendali)
+  │    └── Middleware/  (Autentikasi & Pembatasan Role)
+  └── Models/           (Eloquent Models & Hubungan Database)
+config/                 (Konfigurasi Laravel)
+database/
+  ├── migrations/       (Rancangan Skema Database)
+  └── seeders/          (Data Contoh Awal)
+public/
+  ├── img/              (Aset Gambar & Logo)
+  └── screenshotweb/    (Tangkapan Layar Web)
+resources/
+  └── views/            (Tampilan Halaman Blade/HTML)
+routes/
+  └── web.php           (Rute Web & API AJAX)
 ```
 
-## Menjalankan Aplikasi (Local)
+---
+
+## Menjalankan Project (Local)
+
+Clone repository:
+```bash
+git clone https://github.com/finadio/PosyanduHarapanBunda.git
+cd PosyanduHarapanBunda
+```
+
+Salin berkas environment dan atur konfigurasi database pada `.env`:
+```bash
+copy .env.example .env
+```
+
+Install dependensi backend (Composer):
+```bash
+composer install
+```
+
+Generate application key:
+```bash
+php artisan key:generate
+```
+
+Jalankan migrasi database beserta data seeder:
+```bash
+php artisan migrate --seed
+```
+
+Jalankan server lokal Laravel:
 ```bash
 php artisan serve
 ```
-Akses: `http://127.0.0.1:8000`
+Akses melalui browser di: `http://127.0.0.1:8000`
 
-## Struktur Direktori Singkat
-- `app/` kode aplikasi Laravel
-- `routes/` rute aplikasi (`web.php`, `api.php`)
-- `resources/views/` tampilan Blade
-- `database/` migrasi, seeder, dan factory
-- `public/` dokumen publik
+---
 
-## Catatan
-- File `.env` tidak ikut dipush. Gunakan `.env.example` sebagai template.
-- Sesuaikan versi PHP/ekstensi sesuai kebutuhan Laravel Anda.
+## Tautan & Demo
 
-## Kontribusi
-Pull request dipersilakan. Untuk isu/bug, silakan buat issue di repository.
+- **Website Demo:** [posyanduhb.free.nf](https://posyanduhb.free.nf/)
+- **GitHub Repository:** [github.com/finadio/PosyanduHarapanBunda](https://github.com/finadio/PosyanduHarapanBunda)
 
-## Tautan
-- Repository: https://github.com/finadio/PosyanduHarapanBunda
+---
+
+## Pengembang
+
+**Fina Julianti**  
+Program Studi Informatika  
+Universitas Jenderal Soedirman  
+
+* **Mata Kuliah:** Informatika Medik  
+* **Dosen Pengampu:** Dwi Kurnia Wibowo, S.Kom., M.Kom.

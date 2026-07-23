@@ -1,499 +1,219 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>POSYANDU HARAPAN BUNDA | @yield('title', 'Login')</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ asset('img/logo.png') }}" type="image/png">
-    <link rel="apple-touch-icon" href="{{ asset('img/logo.png') }}">
+    <link rel="shortcut icon" href="{{ asset('img/Posyandu.png') }}" type="image/png">
+    <link rel="apple-touch-icon" href="{{ asset('img/Posyandu.png') }}">
 
-    <!-- General CSS Files -->
-    <link rel="stylesheet" href="{{ asset('modules/bootstrap/css/bootstrap.min.css') }}">
+    <!-- Load Tailwind CSS v3 with plugins -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="{{ asset('modules/fontawesome/css/all.min.css') }}">
+    
+    <!-- Bootstrap CSS solely for Modals styling -->
+    <link rel="stylesheet" href="{{ asset('modules/bootstrap/css/bootstrap.min.css') }}">
 
-    <style>
-        :root {
-            --primary-color: rgb(250, 156, 204);
-            --primary-hover: rgb(250, 156, 204);
-            --secondary-color: #6b7280;
-            --accent-color: #f59e0b;
-            --success-color: #10b981;
-            --danger-color: #ef4444;
-            --bg-light: #f8fafc;
-            --bg-white: #ffffff;
-            --text-dark: rgb(69, 52, 98);
-            --text-gray:rgb(69, 52, 98);
-            --border-color: #e5e7eb;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#f49ac1', // Main pink color from Design System
+                        'primary-dark': '#e089af',
+                        'surface': '#f8f9fa',
+                        'surface-container': '#ffffff',
+                    }
+                }
+            }
+        }
+    </script>
+    <style data-purpose="custom-backgrounds">
+        /* Subtle background patterns to mimic the dots/shapes in the original image */
+        .bg-pattern-dots {
+            background-image: radial-gradient(#f49ac1 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+            opacity: 0.2;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Custom gradient for the hero section background */
+        .hero-gradient {
+            background: linear-gradient(135deg, #fef2f2 0%, #fce7f3 100%);
         }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
-
-        /* Geometric Background */
-        .bg-pattern {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: -1;
-            opacity: 0.05;
-        }
-
-        .bg-pattern svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Main Layout */
-        .auth-wrapper {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem 1rem;
-        }
-
-        .auth-container {
-            background: var(--bg-white);
-            border-radius: 16px;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border-color);
-            overflow: hidden;
-            width: 100%;
-            max-width: 900px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            min-height: 500px;
-        }
-
-        /* Left Panel - Image */
-        .image-panel {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+        /* Floating illustration container */
+        .illustration-wrapper {
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             overflow: hidden;
         }
 
-        .image-content {
-            text-align: center;
-            color: white;
-            z-index: 2;
-            padding: 2rem;
-        }
-
-        .image-icon {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
-            opacity: 0.9;
-        }
-
-        .image-title {
-            font-size: 1.75rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            line-height: 1.3;
-        }
-
-        .image-subtitle {
-            font-size: 1rem;
-            opacity: 0.8;
-            line-height: 1.5;
-        }
-
-        /* Decorative elements */
-        .decoration-circle {
+        .floating-heart {
             position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .circle-1 {
-            width: 120px;
-            height: 120px;
-            top: -60px;
-            right: -60px;
-        }
-
-        .circle-2 {
-            width: 80px;
-            height: 80px;
-            bottom: -40px;
-            left: -40px;
-        }
-
-        .circle-3 {
-            width: 60px;
-            height: 60px;
-            top: 50%;
-            left: 10%;
-            animation: float 4s ease-in-out infinite;
+            animation: float 3s ease-in-out infinite;
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* Right Panel - Form */
-        .form-panel {
-            padding: 3rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .brand-section {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .brand-logo {
-            width: 150px;
-            height: 150px;
-            border-radius: 8px;
-            margin-bottom: 0.75rem;
-            object-fit: contain;
-        }
-
-        .brand-name {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 0.25rem;
-        }
-
-        .form-title {
-            font-size: 1.875rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .form-subtitle {
-            color: var(--text-gray);
-            font-size: 0.95rem;
-            margin-bottom: 2rem;
-        }
-
-        /* Form Elements */
-        .form-group {
-            margin-bottom: 1.25rem;
-        }
-
-        .form-label {
-            display: block;
-            font-weight: 500;
-            color: var(--text-dark);
-            margin-bottom: 0.5rem;
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border: 1.5px solid var(--border-color);
-            border-radius: 8px;
-            background-color: var(--bg-white);
-            font-size: 1rem;
-            transition: all 0.2s ease;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
-        }
-
-        .form-control.is-invalid {
-            border-color: var(--danger-color);
-        }
-
-        .form-control::placeholder {
-            color: var(--text-gray);
-        }
-
-        .invalid-feedback {
-            color: var(--danger-color);
-            font-size: 0.8rem;
-            margin-top: 0.25rem;
-        }
-
-        /* Button */
-        .btn-primary {
-            background-color: var(--primary-color);
-            border: none;
-            border-radius: 8px;
-            padding: 0.875rem 1.5rem;
-            font-weight: 600;
-            font-size: 1rem;
-            color: white;
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-
-        .btn-primary:hover {
-            background-color: var(--primary-hover);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-        }
-
-        .btn-primary:active {
-            transform: translateY(0);
-        }
-
-        /* Links */
-        .auth-link {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s ease;
-        }
-
-        .auth-link:hover {
-            color: var(--primary-hover);
-            text-decoration: underline;
-        }
-
-        /* Alerts */
-        .alert {
-            padding: 0.875rem 1rem;
-            border-radius: 8px;
-            border: none;
-            margin-bottom: 1.5rem;
-            font-size: 0.9rem;
-        }
-
-        .alert-success {
-            background-color: rgba(16, 185, 129, 0.1);
-            color: var(--primary-hover);
-            border-left: 4px solid var(--success-color);
-        }
-
-        .alert-danger {
-            background-color: rgba(239, 68, 68, 0.1);
-            color: #dc2626;
-            border-left: 4px solid var(--danger-color);
-        }
-
-        /* Footer */
-        .auth-footer {
-            grid-column: 1 / -1;
-            padding: 1.5rem 2rem;
-            background-color: var(--bg-light);
-            border-top: 1px solid var(--border-color);
-            text-align: center;
-            color: var(--text-gray);
-            font-size: 0.85rem;
-        }
-
-        /* Help Button */
-        .help-button {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 56px;
-            height: 56px;
-            background-color: var(--primary-color);
-            border: none;
-            border-radius: 50%;
-            color: white;
-            font-size: 1.25rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-lg);
-            z-index: 1000;
-        }
-
-        .help-button:hover {
-            background-color: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .auth-container {
-                grid-template-columns: 1fr;
-                max-width: 400px;
+            0%, 100% {
+                transform: translateY(0);
             }
-            
-            .image-panel {
-                display: none;
-            }
-            
-            .form-panel {
-                padding: 2rem;
-            }
-            
-            .form-title {
-                font-size: 1.5rem;
+            50% {
+                transform: translateY(-10px);
             }
         }
 
-        /* Loading Animation */
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        /* Bootstrap modal customization override to match Tailwind */
+        .modal-content {
+            border-radius: 1.5rem !important;
+            border: none !important;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
         }
     </style>
+    @stack('styles')
 </head>
 
-<body>
-    <!-- Background Pattern -->
-    <div class="bg-pattern">
-        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
-                    <path d="M 10 0 L 0 0 0 10" fill="none" stroke="currentColor" stroke-width="0.5"/>
-                </pattern>
-            </defs>
-            <rect width="100" height="100" fill="url(#grid)" />
+<body class="bg-slate-50 font-sans min-h-screen flex flex-col justify-center items-center p-4">
+    <!-- BEGIN: MainContainer -->
+    <main class="w-full max-w-6xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[700px]" data-purpose="auth-container">
+        <!-- BEGIN: HeroSection -->
+        <section class="w-full md:w-1/2 hero-gradient p-8 md:p-12 flex flex-col justify-between relative overflow-hidden" data-purpose="info-section">
+            <!-- Decorative background dots -->
+            <div class="absolute top-0 left-0 w-32 h-32 bg-pattern-dots pointer-events-none"></div>
+            <div class="relative z-10">
+                <h1 class="text-3xl md:text-4xl font-extrabold text-slate-800 leading-tight">
+                    Keluarga Sehat,<br />
+                    <span class="text-primary">Masa Depan Hebat</span>
+                </h1>
+                <p class="mt-4 text-slate-600 text-sm md:text-base max-w-sm leading-relaxed">
+                    Posyandu <span class="font-bold">Harapan Bunda</span> hadir untuk mendukung kesehatan ibu dan anak dengan pelayanan terbaik.
+                </p>
+            </div>
+            <!-- Main Illustration -->
+            <div class="relative flex justify-center items-center py-8 illustration-wrapper">
+                <!-- Pink heart floating decoration -->
+                <div class="floating-heart absolute top-10 right-1/4 text-primary opacity-40">
+                    <svg fill="currentColor" height="40" viewBox="0 0 24 24" width="40" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
+                    </svg>
+                </div>
+                <img alt="Keluarga Posyandu" class="w-full h-64 md:h-80 object-cover rounded-3xl drop-shadow-xl z-10 border-4 border-white" src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?auto=format&fit=crop&w=800&q=80" />
+            </div>
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-3 gap-3 md:gap-4 z-10">
+                <!-- Card 1 -->
+                <div class="bg-white/80 backdrop-blur-sm p-3 md:p-4 rounded-2xl flex flex-col items-center text-center shadow-sm border border-white">
+                    <div class="bg-rose-100 p-2 rounded-full mb-2">
+                        <i class="fas fa-child text-rose-500 w-5 h-5 flex items-center justify-center"></i>
+                    </div>
+                    <span class="text-sm md:text-lg font-bold text-slate-800">{{ \App\Models\FamilyChildren::count() }}+</span>
+                    <span class="text-[10px] md:text-xs text-slate-500">Balita Terdata</span>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-white/80 backdrop-blur-sm p-3 md:p-4 rounded-2xl flex flex-col items-center text-center shadow-sm border border-white">
+                    <div class="bg-pink-100 p-2 rounded-full mb-2">
+                        <i class="fas fa-heart text-pink-500 w-5 h-5 flex items-center justify-center"></i>
+                    </div>
+                    <span class="text-sm md:text-lg font-bold text-slate-800">{{ \App\Models\FamilyParent::where('is_pregnant', 'Hamil')->count() }}+</span>
+                    <span class="text-[10px] md:text-xs text-slate-500">Ibu Hamil</span>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-white/80 backdrop-blur-sm p-3 md:p-4 rounded-2xl flex flex-col items-center text-center shadow-sm border border-white">
+                    <div class="bg-blue-100 p-2 rounded-full mb-2">
+                        <i class="fas fa-calendar-alt text-blue-500 w-5 h-5 flex items-center justify-center"></i>
+                    </div>
+                    <span class="text-[10px] md:text-xs font-bold text-slate-800 leading-tight">Pelayanan</span>
+                    <span class="text-[10px] md:text-xs text-slate-500">Setiap Bulan</span>
+                </div>
+            </div>
+        </section>
+        <!-- END: HeroSection -->
+
+        <!-- BEGIN: LoginSection -->
+        <section class="w-full md:w-1/2 p-8 md:p-16 flex flex-col justify-center" data-purpose="login-form-container">
+            <!-- Brand Logo -->
+            <div class="flex items-center gap-3 mb-12">
+                <div class="w-12 h-12 bg-white rounded-xl shadow-lg flex items-center justify-center p-2">
+                    <img src="{{ asset('img/Posyandu.png') }}" alt="Logo Posyandu" class="w-full h-full object-contain" />
+                </div>
+                <div>
+                    <span class="block text-xl font-extrabold text-indigo-900 tracking-tight leading-none">POSYANDU</span>
+                    <span class="block text-xl font-extrabold text-indigo-900 tracking-tight leading-none uppercase">Harapan Bunda</span>
+                </div>
+            </div>
+
+            <!-- Alert Messages -->
+            @if (session()->has('success'))
+                <div class="mb-6 bg-green-50 border border-green-100 text-green-700 px-4 py-3 rounded-lg flex items-center justify-between text-sm" role="alert">
+                    <div class="flex items-center">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        <span>{{ session('success') }}</span>
+                    </div>
+                </div>
+            @endif
+
+            @if (session()->has('error'))
+                <div class="mb-6 bg-red-50 border border-red-100 text-red-700 px-4 py-3 rounded-lg flex items-center justify-between text-sm" role="alert">
+                    <div class="flex items-center">
+                        <i class="fas fa-exclamation-circle mr-2"></i>
+                        <span>{{ session('error') }}</span>
+                    </div>
+                </div>
+            @endif
+
+            <!-- Main Content -->
+            @yield('main')
+            <!-- End content -->
+        </section>
+        <!-- END: LoginSection -->
+    </main>
+    <!-- END: MainContainer -->
+
+    <!-- BEGIN: Footer -->
+    <footer class="mt-8 text-slate-400 text-xs md:text-sm flex items-center gap-1" data-purpose="page-footer">
+        <span>© {{ date('Y') }} Posyandu Harapan Bunda</span>
+        <span class="mx-1">•</span>
+        <span>{{ $site->village_name ?? 'Desa Lumbir' }}</span>
+        <svg class="w-3 h-3 text-primary ml-1" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
         </svg>
-    </div>
+    </footer>
+    <!-- END: Footer -->
 
-    <div class="auth-wrapper">
-        <div class="auth-container">
-            <!-- Image Panel -->
-            <div class="image-panel">
-                <div class="decoration-circle circle-1"></div>
-                <div class="decoration-circle circle-2"></div>
-                <div class="decoration-circle circle-3"></div>
-                
-                <div class="image-content">
-                    <i class="fas fa-heartbeat image-icon"></i>
-                    <h2 class="image-title">Keluarga Sehat Bersama Harapan Bunda</h2>
-                    <p class="image-subtitle">
-                        Platform digital untuk informasi kesehatan keluarga dengan mudah dan aman.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Form Panel -->
-            <div class="form-panel">
-                <!-- Brand Section -->
-                <div class="brand-section">
-                    <img src="{{ asset('img/Posyandu.png') }}" alt="Logo Posyandu" class="brand-logo">
-                    <div class="brand-name">POSYANDU HARAPAN BUNDA</div>
-                </div>
-
-                <!-- Form Header -->
-                <div class="text-center mb-4">
-                    <h1 class="form-title">{{ Request::is('register') ? 'Daftar' : 'Masuk' }}</h1>
-                    <p class="form-subtitle">
-                        {{ Request::is('register') ? 'Buat akun baru untuk mulai menggunakan layanan kami.' : 'Selamat datang kembali! Silakan masuk ke akun Anda.' }}
-                    </p>
-                </div>
-
-                <!-- Alert Messages -->
-                @if (session()->has('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <i class="fas fa-check-circle me-2"></i>
-                        {{ session('success') }}
-                    </div>
-                @endif
-
-                @if (session()->has('error'))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <i class="fas fa-exclamation-circle me-2"></i>
-                        {{ session('error') }}
-                    </div>
-                @endif
-
-                <!-- Content -->
-                @yield('main')
-                <!-- End content -->
-
-            </div>
-
-            <!-- Footer -->
-            <div class="auth-footer">
-                <span>&copy; {{ date('Y') }} Posyandu Harapan Bunda</span>
-                <span class="mx-2">•</span>
-                <span>{{ $site->village_name ?? 'Desa Lumbir' }}</span>
-            </div>
+    <!-- Floating Chat/Help Button -->
+    <div class="fixed bottom-6 right-6 flex flex-col items-end gap-3" data-purpose="help-widget">
+        <div class="bg-white px-4 py-2 rounded-xl shadow-lg text-xs font-medium text-slate-600 border border-slate-100 hidden md:block">
+            Butuh bantuan?
         </div>
+        <button class="w-14 h-14 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform" data-toggle="modal" data-target="#helpCenterModal">
+            <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"></path>
+                <circle cx="8" cy="10" r="1.5"></circle>
+                <circle cx="12" cy="10" r="1.5"></circle>
+                <circle cx="16" cy="10" r="1.5"></circle>
+            </svg>
+        </button>
     </div>
-
-    <!-- Help Button -->
-    <button class="help-button" title="Pusat Bantuan" data-toggle="modal" data-target="#helpCenterModal">
-        <i class="fas fa-comments"></i>
-    </button>
 
     @include('components.help-center-modal')
-    
+
     <!-- General JS Scripts -->
     <script src="{{ asset('modules/jquery.min.js') }}"></script>
     <script src="{{ asset('modules/popper.js') }}"></script>
-    <script src="{{ asset('modules/tooltip.js') }}"></script>
     <script src="{{ asset('modules/bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('modules/nicescroll/jquery.nicescroll.min.js') }}"></script>
     <script src="{{ asset('modules/moment.min.js') }}"></script>
-    <script src="{{ asset('js/stisla.js') }}"></script>
-
-    <!-- Template JS File -->
-    <script src="{{ asset('js/scripts.js') }}"></script>
-    <script src="{{ asset('js/custom.js') }}"></script>
-
-    <script>
-        // Form validation and interaction
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.querySelector('form');
-            if (form) {
-                const submitBtn = form.querySelector('.btn-primary');
-                const buttonText = form.querySelector('.button-text');
-                const loading = form.querySelector('.loading');
-                
-                // Form submit handler
-                form.addEventListener('submit', function(e) {
-                    // Show loading state
-                    if (buttonText) buttonText.classList.add('d-none');
-                    if (loading) loading.classList.remove('d-none');
-                    if (submitBtn) submitBtn.disabled = true;
-                });
-                
-                // Input focus effects
-                const inputs = document.querySelectorAll('.form-control');
-                inputs.forEach(input => {
-                    input.addEventListener('focus', function() {
-                        this.parentElement.classList.add('focused');
-                    });
-                    
-                    input.addEventListener('blur', function() {
-                        this.parentElement.classList.remove('focused');
-                    });
-                });
-            }
-        });
-    </script>
 
     @stack('scripts')
 </body>
